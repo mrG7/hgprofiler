@@ -18,7 +18,7 @@ class ProfilerSpider(scrapy.Spider):
 
     def __init__(self, usernames):
         self.site_db = json.load(open("profiler_sites.json"))
-        self.usernames = usernames.split(",")        
+        self.usernames = usernames.split(",")
         
     def start_requests(self):
         # create sites lookup table
