@@ -13,8 +13,16 @@ BOT_NAME = 'hgpscrape'
 SPIDER_MODULES = ['spiders']
 NEWSPIDER_MODULE = 'spiders'
 
-CLOSESPIDER_ITEMCOUNT = '1000'
+CLOSESPIDER_ITEMCOUNT = '1000000'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'
 DOWNLOAD_TIMEOUT = 6
+ITEM_PIPELINES = {
+  'pipelines.MongoPipeline': 100,
+}
+
+MONGO_LOCATION = "localhost"
+MONGO_PORT = 27017
+
+#SHELVE_LOCATION = "/home/punk/hgprofiler/ui/profilerdbs"

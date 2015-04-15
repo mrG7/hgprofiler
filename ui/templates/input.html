@@ -15,11 +15,6 @@
 			max-width: 100%;
 			width: 100%;
 		}
-		img {
-			width: 100%;
-			max-width: 100%;
-			height: auto;
-		}
 		.white-panel {
 			position: absolute;
 			background: white;
@@ -40,7 +35,18 @@
 			-o-transition: all 0.3s ease-in-out;
 			transition: all 0.3s ease-in-out;
 		}
-	</style>
+
+         .ui-widget-header {
+            background: #cedc98;
+            border: 1px solid #DDDDDD;
+            color: #333333;
+            font-weight: bold;
+         }
+
+        .container {
+            padding-top: 20px;
+        }
+      </style>
 
 	<!--<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">-->
 </head>
@@ -58,28 +64,152 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Add Known Urls</h3>
+							<h3 class="panel-title">Profile Usernames</h3>
 						</div>
 						<div class="panel-body">
 							<div>
 							Enter line-separated usernames
 							</div>
 							<div class="input-group">
-								<textarea id="urlsToAdd" style="height:500px; width:1050px; font-size:10px;" class="form-control"></textarea>
+								<textarea id="urlsToAdd" style="height:200px; width:1050px; font-size:13px;" class="form-control"></textarea>
 							</div><!-- /input-group -->
 						</div>
 						<div class="panel-footer">
 							<span class="input-group-btn" style="display:inline;">
 								<button id="saveButton" class="btn btn-default " type="button" style="display:inline;">
-									Save
+									Run Profiler
 								</button>
-							</span><span id="saved" style="display:none; padding-left:10px;">Your entry has been saved</span>
+							</span><span id="saved" style="display:none; padding-left:10px;">The HG Profiler has been started</span>
 						</div>
 					</div>
-				</div><!-- /.col-lg-6 -->
-			</div><!-- /.row -->
+				</div>
+			</div>
+
+            <div id="progresstext"></div>
+            <div id="progressbar-1"></div>
 		</div>
 	</div>
+
+	<div id="container">
+		<div class="container marketing">
+			<div class="row" >
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Profiler Results</h3>
+						</div>
+						<div class="panel-body">
+                            <div id="container">
+                                 <ul class="list-group">
+                                 {% for user, count in users.iteritems() %}
+                                      <li class="list-group-item"><span class="badge">{{ count }}</span>{{ user }}</li>
+                                 {% endfor %}
+                                </ul>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+<!--
+	<div id="container">
+
+		<div class="container marketing">
+			<div class="row" >
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Profiler Results</h3>
+						</div>
+						<div class="panel-body">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">User 1<span class="badge">14</span></div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-1">
+                                            <a href="#" class="thumbnail">
+                                                <h3>Thumbnail label</h3>
+                                                <img src="https://browshot.com/static/images/not-found.png" alt="125x125" height="300" width="300">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-3 col-md-1">
+                                            <a href="#" class="thumbnail">
+                                                <img src="https://browshot.com/static/images/not-found.png" alt="125x125">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-3 col-md-1">
+                                            <a href="#" class="thumbnail">
+                                                <img src="https://browshot.com/static/images/not-found.png" alt="125x125">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-3 col-md-1">
+                                            <a href="#" class="thumbnail">
+                                                <img src="https://browshot.com/static/images/not-found.png" alt="125x125">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-success">
+                                <div class="panel-heading">User 1<span class="badge">14</span></div>
+                                <div class="panel-body">blahblahblahsdhaosd</div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">User 1<span class="badge">14</span></div>
+                                <div class="panel-body">blahblahblahsdhaosd</div>
+                            </div>
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">User 1<span class="badge">14</span></div>
+                                <div class="panel-body">blahblahblahsdhaosd</div>
+                            </div>
+                            <div class="panel panel-danger">
+                                <div class="panel-heading">User 1 <span class="badge">14</span></div>
+                                <div class="panel-body">blahblahblahsdhaosd</div>
+                            </div>
+						</div>
+					</div>
+				</div>&lt;!&ndash; /.col-lg-6 &ndash;&gt;
+			</div>&lt;!&ndash; /.row &ndash;&gt;
+		</div>
+	</div>
+-->
+
+
+
+
+
+<!--    <div id="results" class="col-lg-12">
+        <h1>Results</h1>
+
+          <div class="container thumbnails">
+            <div class="row">
+                <div class="col-sm-3 col-md-1">
+                    <a href="#" class="thumbnail">
+                        <img src="https://browshot.com/static/images/not-found.png" alt="125x125">
+                    </a>
+                </div>
+                <div class="col-sm-3 col-md-1">
+                    <a href="#" class="thumbnail">
+                        <img src="https://browshot.com/static/images/not-found.png" alt="125x125">
+                    </a>
+                </div>
+                <div class="col-sm-3 col-md-1">
+                    <a href="#" class="thumbnail">
+                        <img src="https://browshot.com/static/images/not-found.png" alt="125x125">
+                    </a>
+                </div>
+                <div class="col-sm-3 col-md-1">
+                    <a href="#" class="thumbnail">
+                        <img src="https://browshot.com/static/images/not-found.png" alt="125x125">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>-->
 
 	<!-- Bootstrap core JavaScript
 	================================================== -->
@@ -97,7 +227,6 @@
 		var urlsToAdd = [$("#urlsToAdd").val()];
 		console.log(urlsToAdd);
 
-
 		var posting = $.ajax({
 			type : "POST",
 			url : '/api/add-usernames',
@@ -110,7 +239,6 @@
 				setTimeout(function() {
      				$("#saved").css("display", "none");
 				}, 2000);
-
 			}
 		});
     }
@@ -118,10 +246,38 @@
 	$(document).ready(function() {
 
 		$('#saveButton').click(saveUrls);
+        var seconds = 1;
+
+            setInterval(function(){
+                $.ajax({
+                    type: "GET",
+                    url: '/api/job-stats',
+                    success: function(data) {
+                        console.log(data);
+                        dataobj = JSON.parse(data);
+                        console.log(dataobj.finished);
+                        if (dataobj.running != 0) {
+                            $("#progressbar-1").progressbar({value: dataobj.finished, max: dataobj.all});
+
+                            if (dataobj.finished == dataobj.all) {
+                                $("#progresstext").text("Done!");
+                            }
+                            else {
+                                $("#progresstext").text(String(dataobj.finished) + "/" + String(dataobj.all) + " usernames completed...");
+                            }
+                        }
+                        else if (dataobj.running == 0 && dataobj.finished != 0){
+                            $("#progresstext").text("Done!");
+                            $("#progresstext").text(String(dataobj.finished) + "/" + String(dataobj.all) + " usernames completed...");
+                            $("#progressbar-1").progressbar({value: dataobj.finished, max: dataobj.all});
+                        }
+                        else {
+                            console.log("No job runnning!")
+                        }
+                    }
+                });
+            }, seconds * 1000);
 	});
-
-
-
 </script>
 
 </html>

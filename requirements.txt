@@ -1,2 +1,6 @@
 scrapy
 flask
+shelve
+python-scrapyd-api
+sevice-identity
+pyopenssl >= 0.15
