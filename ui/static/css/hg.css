@@ -25,3 +25,9 @@ cursor: pointer;
   width:1000px;
 
 }
+
+.btn {
+
+    padding-right:143px;
+    border:medium outset;
+}

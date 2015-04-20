@@ -54,10 +54,15 @@
 ================================================== -->
 
 <body>
+
 	<!--25,300-->
 	<!-- <button id="page-up" style="width:100%; height:40px; position:absolute; display:none ;" class="btn btn-warning" onclick="loadPrevious();">PAGE UP</button> -->
 	<div class="jquery-script-clear"></div>
 	<div id="container">
+
+    <button id="crawlServiceStatusButton" class="btn btn-success .disabled " type="button" style="display:inline; margin-left:20px; padding-right:10px; ">
+        Crawl Service is Running
+    </button>
 
 		<div class="container marketing">
 			<div class="row" >
@@ -79,16 +84,24 @@
 								<button id="saveButton" class="btn btn-default " type="button" style="display:inline;">
 									Run Profiler
 								</button>
-							</span><span id="saved" style="display:none; padding-left:10px;">The HG Profiler has been started</span>
+								<button id="crawlStopButton" class="btn btn-default " type="button" style="display:inline;">
+                                    Stop Crawl Services
+								</button>
+								<button id="crawlStartButton" class="btn btn-default " type="button" style="display:inline;">
+									Start Crawl Services
+								</button>
+								<button id="clearCrawlButton" class="btn btn-default " type="button" style="display:inline;">
+									Clear Crawl Data
+								</button>
+
+							</span><!--<span id="saved" style="display:none; padding-left:10px;">The HG Profiler has been started</span>-->
 						</div>
 					</div>
 				</div>
 			</div>
-
-            <div id="progresstext"></div>
-            <div id="progressbar-1"></div>
 		</div>
 	</div>
+
 
 	<div id="container">
 		<div class="container marketing">
@@ -99,12 +112,16 @@
 							<h3 class="panel-title">Profiler Results</h3>
 						</div>
 						<div class="panel-body">
+                            <div id="progresstext" style="margin-top:10px; margin-bottom:15px;">Calculating progress...</div>
+                            <div id="progressbar-1" style="margin-top:10px; margin-bottom:15px;"></div>
+
                             <div id="container">
                                  <ul class="list-group">
                                  {% for user, count in users.iteritems() %}
-                                      <li class="list-group-item"><span class="badge">{{ count }}</span>{{ user }}</li>
+                                      <li class="list-group-item"><span class="badge">{{ count }}</span><a href="data-download.jl?user={{ user }}"">{{ user }}</a></li>
                                  {% endfor %}
                                 </ul>
+                                <a href="/data-download.jl">Download All Data</a>
                             </div>
 						</div>
 					</div>
@@ -113,6 +130,8 @@
 		</div>
 	</div>
 
+
+    <div id="dialog-confirm"></div>
 
 
 <!--
@@ -221,11 +240,22 @@
 
 <script>
 
+
+    var crawl_service_status = null;
     var saveUrls = function() {
 
+        if (crawl_service_status == true){
+            //do nothing
+        }
+        else {
+            alert("Crawl service must be running for you to run the profiler!!");
+            return false;
+        }
+
 		//sent as a big blob because i don't want to deal with normalizing newlines (python does this server-side for me)
-		var urlsToAdd = [$("#urlsToAdd").val()];
+        var urlsToAdd = [$("#urlsToAdd").val()];
 		console.log(urlsToAdd);
+
 
 		var posting = $.ajax({
 			type : "POST",
@@ -241,9 +271,89 @@
 				}, 2000);
 			}
 		});
-    }
+    };
+
+    var stopCrawlServices = function() {
+		var posting = $.ajax({
+			type : "GET",
+			url : '/api/kill-crawl-services',
+			success : function(data) {
+                console.log("Crawl services stopped!");
+			}
+		});
+    };
+
+    var startCrawlServices = function() {
+		//sent as a big blob because i don't want to deal with normalizing newlines (python does this server-side for me)
+		var posting = $.ajax({
+			type : "GET",
+			url : '/api/start-crawl-services',
+			success : function(data) {
+                console.log("Crawl services started!");
+			}
+		});
+    };
+
+    var getCrawlServiceStatus = function() {
+		//sent as a big blob because i don't want to deal with normalizing newlines (python does this server-side for me)
+		var posting = $.ajax({
+			type : "GET",
+			url : '/api/crawl-service-status',
+			success : function(data) {
+                console.log(data.status);
+                if (data.status == "down"){
+                    console.log("Crawl status is down!")
+                    $("#crawlServiceStatusButton").removeClass("btn-success");
+                    $("#crawlServiceStatusButton").addClass("btn-danger");
+                    $("#crawlServiceStatusButton").text("Crawl Service is Down");
+                    crawl_service_status = false;
+                }
+                else {
+                    console.log("Crawl status is up!");
+                    $("#crawlServiceStatusButton").addClass("btn-success");
+                    $("#crawlServiceStatusButton").removeClass("btn-danger");
+                    $("#crawlServiceStatusButton").text("Crawl Service is Up");
+                    crawl_service_status = true;
+                }
+			}
+		});
+    };
+
+    var clearCrawlData = function() {
+
+        if (crawl_service_status == true){
+            //do nothing
+        }
+        else {
+            alert("Crawl service must be running for you to clear it!");
+            return false;
+        }
+
+        var r = window.confirm("Warning: this will clear your crawl data, it cannot be recovered!!");
+        if (r == true){
+            //do nothing
+        }
+        else {
+           return false;
+        }
+
+		var posting = $.ajax({
+			type : "GET",
+			url : '/api/clear-crawls',
+			success : function(data) {
+                console.log("Clearing crawl services");
+                location.reload();
+			}
+		});
+    };
+
 
 	$(document).ready(function() {
+        getCrawlServiceStatus();
+
+		$("#crawlStopButton").click(stopCrawlServices);
+		$("#crawlStartButton").click(startCrawlServices);
+        $('#clearCrawlButton').click(clearCrawlData);
 
 		$('#saveButton').click(saveUrls);
         var seconds = 1;
@@ -258,6 +368,8 @@
                         console.log(dataobj.finished);
                         if (dataobj.running != 0) {
                             $("#progressbar-1").progressbar({value: dataobj.finished, max: dataobj.all});
+                            //!
+                            $("#progresstext").text("");
 
                             if (dataobj.finished == dataobj.all) {
                                 $("#progresstext").text("Done!");
@@ -272,11 +384,14 @@
                             $("#progressbar-1").progressbar({value: dataobj.finished, max: dataobj.all});
                         }
                         else {
+                            $("#progresstext").text("No job running...");
                             console.log("No job runnning!")
                         }
                     }
                 });
             }, seconds * 1000);
+
+            setInterval(getCrawlServiceStatus, seconds * 1000);
 	});
 </script>
 

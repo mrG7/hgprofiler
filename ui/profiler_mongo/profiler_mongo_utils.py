@@ -23,11 +23,14 @@ class ProfilerMongoUtils(object):
     def list_records(self):
         return self.scrapy_item_collection.find()
 
+    def list_records_filtered(self, filter):
+        return self.scrapy_item_collection.find(filter)
+
     def list_indices(self):
         return list(self.scrapy_item_collection.list_indexes())
 
 if __name__ == "__main__":
 
-    #pm = ProfilerMongoUtils(init_db = True)
+    pm = ProfilerMongoUtils(init_db = True)
     #print pm.list_records()
-    print pm.list_indices()
+    #print pm.list_indices()
