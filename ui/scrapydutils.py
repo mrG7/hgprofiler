@@ -9,7 +9,7 @@ this_files_dir = os.path.dirname(os.path.realpath(__file__))
 
 class ScrapydJob(object):
 
-    def __init__(self, scrapyd_host="localhost", scrapyd_port="6800", project="profiler-project", spider="profiler_spider"):
+    def __init__(self, scrapyd_host="localhost", scrapyd_port="6801", project="profiler-project", spider="profiler_spider"):
 
         scrapy_url = "http://" + scrapyd_host + ":" + str(scrapyd_port)
         self.scrapi = ScrapydAPI(scrapy_url)

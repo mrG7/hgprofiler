@@ -6,13 +6,13 @@ def user_input_handler(usernames):
 
     d = shelve.open("dbobjects/" + "users.shelve.db")
     d["users"] = usernames
-    sdj = ScrapydJob("localhost", 6800, project='profiler-project', spider="profiler_spider")
+    sdj = ScrapydJob("localhost", 6801, project='profiler-project', spider="profiler_spider")
     for user in usernames:
         sdj.schedule(user)
 
 def  job_stats_handler():
 
-    sdj = ScrapydJob("localhost", 6800, project='profiler-project', spider="profiler_spider")
+    sdj = ScrapydJob("localhost", 6801, project='profiler-project', spider="profiler_spider")
     return sdj.get_job_stats()
 
 def users_handler():
@@ -33,19 +33,19 @@ def records_handler(username):
     pass
 
 def kill_crawl_services_handler():
-    sdj = ScrapydJob("localhost", 6800, project='profiler-project', spider="profiler_spider")
+    sdj = ScrapydJob("localhost", 6801, project='profiler-project', spider="profiler_spider")
     sdj.kill_crawl_services()
 
 def crawl_services_status_handler():
-    sdj = ScrapydJob("localhost", 6800, project='profiler-project', spider="profiler_spider")
+    sdj = ScrapydJob("localhost", 6801, project='profiler-project', spider="profiler_spider")
     return sdj.crawl_service_status()
 
 def start_crawl_services_handler():
-    sdj = ScrapydJob("localhost", 6800, project='profiler-project', spider="profiler_spider")
+    sdj = ScrapydJob("localhost", 6801, project='profiler-project', spider="profiler_spider")
     sdj.start_crawl_services()
 
 def clear_crawls_handler():
-    sdj = ScrapydJob("localhost", 6800, project='profiler-project', spider="profiler_spider")
+    sdj = ScrapydJob("localhost", 6801, project='profiler-project', spider="profiler_spider")
     sdj.clear_scrapyd()
     ProfilerMongoUtils(init_db = True)
 

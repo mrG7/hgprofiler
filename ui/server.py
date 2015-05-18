@@ -80,7 +80,17 @@ def data_download():
 
     return Response(jl, mimetype="application/json")
 
+@app.route("/link-from-quickpin", methods = ["GET"])
+def link_from_quickpin():
+
+    username = request.args.get("user").strip()
+
+    thr = Thread(spawn_async_usernames_handler(app, [username]))
+    thr.start()
+
+    return redirect("/", code=302)
+
 if __name__ == "__main__":
 
     app.debug = True
-    app.run('0.0.0.0', port=8080, threaded=True)
+    app.run('0.0.0.0', port=8081, threaded=True)
