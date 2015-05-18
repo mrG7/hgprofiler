@@ -127,17 +127,23 @@
 							<h3 class="panel-title">Profiler Results</h3>
 						</div>
 						<div class="panel-body">
-                            <div id="progresstext" style="margin-top:10px; margin-bottom:15px;">Calculating progress...</div>
-                            <div id="progressbar-1" style="margin-top:10px; margin-bottom:15px;"></div>
+              <div id="progresstext" style="margin-top:10px; margin-bottom:15px;">
+                Calculating progress...
+              </div>
+              <div id="progressbar-1" style="margin-top:10px; margin-bottom:15px;">
+              </div>
 
-                            <div id="container">
-                                 <ul class="list-group">
-                                 {% for user, count in users.iteritems() %}
-                                      <li class="list-group-item"><span class="badge">{{ count }}</span><a href="data-download.jl?user={{ user }}"">{{ user }}</a></li>
-                                 {% endfor %}
-                                </ul>
-                                <a href="/data-download.jl">Download All Data</a>
-                            </div>
+              <div id="container">
+                <ul class="list-group">
+                {% for user, count in users.iteritems() %}
+                  <li class="list-group-item">
+                    <span class="badge">{{ count }}</span>
+                    <a href="/user/{{ user }}">{{ user }}</a>
+                  </li>
+                {% endfor %}
+                </ul>
+                <a href="/data-download.jl">Download All Data</a>
+              </div>
 						</div>
 					</div>
 				</div>

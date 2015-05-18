@@ -1,5 +1,7 @@
+from collections import defaultdict
 from profiler_mongo.profiler_mongo_utils import ProfilerMongoUtils
 from scrapydutils import ScrapydJob
+from werkzeug.exceptions import NotFound
 
 def user_input_handler(usernames):
 
@@ -15,14 +17,11 @@ def  job_stats_handler():
 def users_handler():
 
     pmu = ProfilerMongoUtils()
-    users_and_counts = {}
+    users_and_counts = defaultdict(int)
     #FIXME: hacky and slow
     for user_dic in pmu.list_records():
         user = user_dic["username"]
-        if user not in users_and_counts:
-            users_and_counts[user] = 1
-        else:
-            users_and_counts[user] += 1
+        users_and_counts[user] += 1
 
     return users_and_counts
 
@@ -45,6 +44,15 @@ def clear_crawls_handler():
     sdj = ScrapydJob("localhost", 6801, project='profiler-project', spider="profiler_spider")
     sdj.clear_scrapyd()
     ProfilerMongoUtils(init_db = True)
+
+def display_user_handler(username):
+    pmu = ProfilerMongoUtils()
+    profiles = list(pmu.list_records_filtered({'username': username}))
+
+    if len(profiles) == 0:
+        raise NotFound('No user named "%s" exists.' % username)
+
+    return profiles
 
 def get_data_handler(username = None):
 

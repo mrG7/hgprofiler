@@ -1,7 +1,8 @@
 import json
 from handlers import user_input_handler, job_stats_handler, users_handler,\
     crawl_services_status_handler, kill_crawl_services_handler,\
-    start_crawl_services_handler, clear_crawls_handler, get_data_handler
+    start_crawl_services_handler, clear_crawls_handler, get_data_handler, \
+    display_user_handler
 from threading import Thread
 from flask import Flask
 from flask import render_template, Response, request
@@ -64,6 +65,11 @@ def start_crawl_services():
 def clear_crawls():
     clear_crawls_handler()
     return Response("{}", mimetype="application/json")
+
+@app.route("/user/<username>")
+def display_user(username):
+    profiles = display_user_handler(username)
+    return render_template("user.html", profiles=profiles)
 
 @app.route("/data-download.jl")
 def data_download():
