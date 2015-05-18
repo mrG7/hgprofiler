@@ -12,7 +12,7 @@ cursor: pointer;
 }
 
 .spanlink {
-  padding-left:40px; 
+  padding-left:40px;
   font-weight:bold;
 }
 
@@ -22,12 +22,9 @@ cursor: pointer;
 }
 
 .list-group-item {
-  width:1000px;
-
+  width:100%;
 }
 
-.btn {
-
-    padding-right:143px;
-    border:medium outset;
+.btn-block {
+    margin-bottom: 0.5em;
 }
