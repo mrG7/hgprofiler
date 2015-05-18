@@ -1,11 +1,8 @@
 from profiler_mongo.profiler_mongo_utils import ProfilerMongoUtils
-import shelve
 from scrapydutils import ScrapydJob
 
 def user_input_handler(usernames):
 
-    d = shelve.open("dbobjects/" + "users.shelve.db")
-    d["users"] = usernames
     sdj = ScrapydJob("localhost", 6801, project='profiler-project', spider="profiler_spider")
     for user in usernames:
         sdj.schedule(user)
