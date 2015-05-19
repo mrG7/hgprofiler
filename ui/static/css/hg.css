@@ -28,3 +28,11 @@ cursor: pointer;
 .btn-block {
     margin-bottom: 0.5em;
 }
+
+table.profiles td {
+    vertical-align: middle !important;
+}
+
+img.thumb {
+    max-width: 320px;
+}

@@ -18,6 +18,9 @@ CLOSESPIDER_ITEMCOUNT = '1000000'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'
 DOWNLOAD_TIMEOUT = 6
+DOWNLOADER_MIDDLEWARES = {
+  'splash_middleware.SplashMiddleware': 100,
+}
 ITEM_PIPELINES = {
   'pipelines.MongoPipeline': 100,
 }
